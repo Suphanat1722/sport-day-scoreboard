@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แผงควบคุมคะแนน</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #e9eef2;
+            margin: 0;
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1300px;
+            margin: 2rem auto;
+        }
+        .admin-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+            padding: 1.5rem;
+        }
+        .admin-card h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        #team-red h2 { color: #e74c3c; }
+        #team-blue h2 { color: #3498db; }
+        #team-green h2 { color: #2ecc71; }
+        #team-yellow h2 { color: #f360ce; }
+
+        .current-score {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .controls-group {
+            margin-top: 1rem;
+        }
+        .controls-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .quick-add-buttons, .set-score-form {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: white;
+            flex-grow: 1;
+        }
+        .btn-add { background-color: #27ae60; }
+        .btn-add:hover { background-color: #2ecc71; }
+        .btn-set { background-color: #e67e22; }
+        .btn-set:hover { background-color: #f39c12; }
+
+        .score-input {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        #status-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        #status-message.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>📝 แผงควบคุมคะแนน</h1>
+
+    <div class="admin-grid">
+        <div class="admin-card" id="team-red">
+            <h2>สีแดง</h2>
+            <p id="current-score-red" class="current-score">0</p>
+            <div class="controls-group">
+                <label>เพิ่มคะแนนด่วน</label>
+                <div class="quick-add-buttons">
+                    <button class="btn btn-add" data-team="red" data-points="1">+1</button>
+                    <button class="btn btn-add" data-team="red" data-points="5">+5</button>
+                    <button class="btn btn-add" data-team="red" data-points="10">+10</button>
+                </div>
+            </div>
+            <div class="controls-group">
+                <label>กำหนดค่าคะแนน</label>
+                <div class="set-score-form">
+                    <input type="number" class="score-input" id="input-red" placeholder="ใส่คะแนน">
+                    <button class="btn btn-set" data-team="red" data-action="set">Set</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-card" id="team-blue">
+            <h2>สีน้ำเงิน</h2>
+            <p id="current-score-blue" class="current-score">0</p>
+            <div class="controls-group">
+                <label>เพิ่มคะแนนด่วน</label>
+                <div class="quick-add-buttons">
+                    <button class="btn btn-add" data-team="blue" data-points="1">+1</button>
+                    <button class="btn btn-add" data-team="blue" data-points="5">+5</button>
+                    <button class="btn btn-add" data-team="blue" data-points="10">+10</button>
+                </div>
+            </div>
+            <div class="controls-group">
+                <label>กำหนดค่าคะแนน</label>
+                <div class="set-score-form">
+                    <input type="number" class="score-input" id="input-blue" placeholder="ใส่คะแนน">
+                    <button class="btn btn-set" data-team="blue" data-action="set">Set</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-card" id="team-green">
+            <h2>สีเขียว</h2>
+            <p id="current-score-green" class="current-score">0</p>
+            <div class="controls-group">
+                <label>เพิ่มคะแนนด่วน</label>
+                <div class="quick-add-buttons">
+                    <button class="btn btn-add" data-team="green" data-points="1">+1</button>
+                    <button class="btn btn-add" data-team="green" data-points="5">+5</button>
+                    <button class="btn btn-add" data-team="green" data-points="10">+10</button>
+                </div>
+            </div>
+            <div class="controls-group">
+                <label>กำหนดค่าคะแนน</label>
+                <div class="set-score-form">
+                    <input type="number" class="score-input" id="input-green" placeholder="ใส่คะแนน">
+                    <button class="btn btn-set" data-team="green" data-action="set">Set</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-card" id="team-yellow">
+            <h2>สีชมพู</h2>
+            <p id="current-score-yellow" class="current-score">0</p>
+            <div class="controls-group">
+                <label>เพิ่มคะแนนด่วน</label>
+                <div class="quick-add-buttons">
+                    <button class="btn btn-add" data-team="yellow" data-points="1">+1</button>
+                    <button class="btn btn-add" data-team="yellow" data-points="5">+5</button>
+                    <button class="btn btn-add" data-team="yellow" data-points="10">+10</button>
+                </div>
+            </div>
+            <div class="controls-group">
+                <label>กำหนดค่าคะแนน</label>
+                <div class="set-score-form">
+                    <input type="number" class="score-input" id="input-yellow" placeholder="ใส่คะแนน">
+                    <button class="btn btn-set" data-team="yellow" data-action="set">Set</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="status-message"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผลคะแนนกีฬาสีสด!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-red: #e74c3c;
+            --color-blue: #3498db;
+            --color-green: #2ecc71;
+            --color-yellow: #f360ce;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .scoreboard {
+            display: grid;
+            /* ค่าเริ่มต้นสำหรับจอมือถือ: แสดง 1 คอลัมน์ */
+            grid-template-columns: 1fr; 
+            gap: 2rem;
+            padding: 2rem;           
+            padding-top: 150px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* เมื่อหน้าจอกว้างตั้งแต่ 992px ขึ้นไป (ครอบคลุมคอมพิวเตอร์ส่วนใหญ่)
+           ให้เปลี่ยนเป็น 4 คอลัมน์ */
+        @media (min-width: 992px) {
+            .scoreboard {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        #team-red .card-header { background-color: var(--color-red); }
+        #team-blue .card-header { background-color: var(--color-blue); }
+        #team-green .card-header { background-color: var(--color-green); }
+        #team-yellow .card-header { background-color: var(--color-yellow); }
+
+        .score {
+            font-size: 5rem;
+            font-weight: 700;
+            padding: 2rem 1rem;
+        }
+        
+        #score-red { color: var(--color-red); }
+        #score-blue { color: var(--color-blue); }
+        #score-green { color: var(--color-green); }
+        #score-yellow { color: var(--color-yellow); }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>🏆 SAHA LAWSON SPORT DAY 2025 🏆</h1>
+    </header>
+
+    <main class="scoreboard">
+        
+        <div class="team-card" id="team-red">
+            <div class="card-header">Red</div>
+            <p id="score-red" class="score">0</p>
+        </div>
+        <div class="team-card" id="team-blue">
+            <div class="card-header">Blue</div>
+            <p id="score-blue" class="score">0</p>
+        </div>
+        <div class="team-card" id="team-green">
+            <div class="card-header">Green</div>
+            <p id="score-green" class="score">0</p>
+        </div>
+        <div class="team-card" id="team-yellow">
+            <div class="card-header">Pink</div>
+            <p id="score-yellow" class="score">0</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Real-time Scoreboard powered by น้องอังคนสวย</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
